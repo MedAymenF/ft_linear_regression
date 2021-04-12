@@ -33,9 +33,9 @@ def		main():
 			count += 1
 	mileage = np.array(mileage)
 	price = np.array(price)
-	print(f"Mileage: {mileage}")
-	print(f"Price: {price}")
-	print(count - 1)
+	# print(f"Mileage: {mileage}")
+	# print(f"Price: {price}")
+	# print(count - 1)
 	# plt.scatter(mileage, price)
 	# plt.show()
 
@@ -51,7 +51,7 @@ def		main():
 	# print(price_norm)
 
 	learning_rate = 0.01
-	n_epochs = 10000
+	n_epochs = 100000
 	theta0_norm, theta1_norm = train(mileage_norm, price_norm, learning_rate, n_epochs)
 	# print(theta0_norm, theta1_norm)
 
@@ -60,12 +60,17 @@ def		main():
 	# print(predicted_price)
 	plt.scatter(mileage, price)
 	plt.plot(mileage, predicted_price, color='red')
+	plt.xlabel("Mileage (in Km)")
+	plt.ylabel("Price (in Euros)")
 	plt.show()
 
 	# Calculating real values of theta0 and theta1
 	theta0 = (theta0_norm - (theta1_norm * mileage.min()) / (mileage.max() - mileage.min())) * (price.max() - price.min()) + price.min()
 	theta1 = (theta1_norm / (mileage.max() - mileage.min())) * (price.max() - price.min())
-	print(theta0, theta1)
+
+	# print(theta0, theta1)
+	f = open("parameters.txt", 'w')
+	f.write(f"{theta0}\n{theta1}\n")
 
 
 if __name__ == "__main__":
