@@ -13,8 +13,7 @@ def		train(mileage, price, learning_rate, n_epochs):
 		price_estimate = mileage * theta1 + theta0
 		diff = price_estimate - price
 		tmp_theta0 = np.sum(diff)*learning_rate/m
-		product = diff*mileage
-		tmp_theta1 = np.sum(product)*learning_rate/m
+		tmp_theta1 = np.sum(diff*mileage)*learning_rate/m
 		theta0 -= tmp_theta0
 		theta1 -= tmp_theta1
 	return theta0, theta1
@@ -22,7 +21,7 @@ def		train(mileage, price, learning_rate, n_epochs):
 
 def		main():
 	# Parse arguments
-	my_parser = argparse.ArgumentParser(description='Train a linear regression model on data.csv.')
+	my_parser = argparse.ArgumentParser(description='Train a linear regression model on a univariate dataset.')
 	my_parser.add_argument('Path', metavar='path', type=str, help='The path to the csv file containing the data.')
 	my_parser.add_argument('-n', '-Number of epochs', type=int, default=1000)
 	my_parser.add_argument('-l', '-Learning rate', type=float, default=0.1)
@@ -61,9 +60,11 @@ def		main():
 	price = price.reshape(-1, 1)
 	price_norm = price_scaler.fit_transform(price)
 
+	# Training
 	theta0_norm, theta1_norm = train(mileage_norm, price_norm, args.l, args.n)
-
 	predicted_price_norm = theta1_norm * mileage_norm + theta0_norm
+
+	# Rescaling
 	predicted_price = price_scaler.inverse_transform(predicted_price_norm)
 
 	# Calculating root mean squared error
