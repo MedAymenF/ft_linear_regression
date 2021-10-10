@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def		read_mileage():
 	try:
 		mileage = float(input("Please enter the mileage: "))
